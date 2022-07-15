@@ -2,7 +2,7 @@
 <div class="row">
   <h1 class="text-center">Edit Campground</h1>
   <div class="col-6 offset-3">
-    <form action="/campgrounds/<%=campground._id %>?_method=PUT" method="post">
+    <form action="/campgrounds/<%=campground._id %>?_method=PUT" class="needs-validation" novalidate method="post">
       <div class="mb-3">
         <label class="form-label" for="title">Title:</label>
         <input class="form-control"
@@ -11,7 +11,11 @@
           id="title"
           placeholder="title"
           value="<%=campground.title%>"
+          required
         />
+        <div class="valid-feedback">
+          Looks good!
+        </div>
       </div>
       <div class="mb-3">
         <label class=form-label" for="location">Location:</label>
@@ -21,7 +25,11 @@
           id="location"
           placeholder="location"
           value="<%=campground.location%>"
+          required
         />
+        <div class="valid-feedback">
+          Looks good!
+        </div>
       </div>
       <div class="mb-3">
         <label class=form-label" for="image">Image Url:</label>
@@ -31,14 +39,21 @@
           id="image"
           placeholder="image Url"
           value="<%=campground.image%>"
+        required
         />
+        <div class="valid-feedback">
+          Looks good!
+        </div>
       </div>
       <div class="mb-3">
         <label for="price" class="form-label">Price:</label>
         <div class="input-group mb-3">
           <span class="input-group-text" id="basic-addon1">$</span>
-          <input id ="price" value="<%=campground.price%>" name="campground[price]" type="text" class="form-control" placeholder="0.00">
+          <input required id ="price" value="<%=campground.price%>" name="campground[price]" type="text" class="form-control" placeholder="0.00">
           
+        <div class="valid-feedback">
+          Looks good!
+        </div>
         </div>
       </div>
       <div class="mb-3">
@@ -48,7 +63,11 @@
           name="campground[description]"
           id="description"
           placeholder="description"
+        required
         ><%=campground.description%></textarea>
+        <div class="valid-feedback">
+          Looks good!
+        </div>
       </div>
       <div class="mb-3">
         <button class="btn btn-info text-white">Update campground</button>
