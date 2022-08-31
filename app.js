@@ -21,7 +21,10 @@ const userRoutes = require("./routes/users");
 const campgroundRoutes = require("./routes/campgrounds");
 const reviewRoutes = require("./routes/reviews");
 
-mongoose.connect("mongodb://localhost:27017/yelp-camp", {
+const MongoStore = require("connect-mongo");
+const dbUrl = process.env.DB_URL || "mongodb://localhost:27017/yelp-camp";
+
+mongoose.connect(dbUrl, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -43,9 +46,24 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "public")));
 
+const secret = process.env.SECRET || "thisshouldbeabettersecret";
+
+const store = MongoStore.create({
+  mongoUrl: dbUrl,
+  touchAfter: 24 * 60 * 60,
+  crypto: {
+    secret,
+  },
+});
+
+store.on("error", function (e) {
+  console.log("Session store error", e);
+});
+
 const sessionConfig = {
+  store,
   name: "session",
-  secret: "thisshouldbeabettersecret!",
+  secret,
   resave: false,
   saveUninitialized: true,
   cookie: {
